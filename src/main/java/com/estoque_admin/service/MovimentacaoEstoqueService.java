@@ -1,6 +1,7 @@
 package com.estoque_admin.service;
 
 
+import com.estoque_admin.exception.EstoqueInsuficienteException;
 import com.estoque_admin.repository.ItemEstoqueRepository;
 import com.estoque_admin.repository.MovimentacaoEstoqueRepository;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,8 @@ import com.estoque_admin.entity.ItemEstoque;
 import com.estoque_admin.entity.MovimentacaoEstoque;
 
 import java.math.BigDecimal;
+
+import com.estoque_admin.exception.RecursoNaoEncontradoException;
 
 @Service
 public class MovimentacaoEstoqueService {
@@ -26,11 +29,10 @@ public class MovimentacaoEstoqueService {
     public MovimentacaoEstoque movimentar(MovimentacaoEstoque movimentacaoEstoque) {
         ItemEstoque itemEstoque = itemEstoqueRepository
                 .findById(movimentacaoEstoque.getItemEstoque().getId())
-                .orElse(null);
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Item de estoque não encontrado"
+                ));
 
-        if (itemEstoque == null) {
-            return null;
-        }
 
         if (movimentacaoEstoque.getTipo().equalsIgnoreCase("ENTRADA")) {
 
@@ -43,7 +45,9 @@ public class MovimentacaoEstoqueService {
             if (itemEstoque.getQuantidade()
                     .compareTo(movimentacaoEstoque.getQuantidade()) < 0) {
 
-                return null;
+                throw new EstoqueInsuficienteException(
+                        "Quantidade insuficente em estoque"
+                );
             }
 
             BigDecimal novaQuantidade = itemEstoque.getQuantidade()
