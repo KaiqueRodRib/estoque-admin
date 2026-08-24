@@ -33,8 +33,6 @@ public class FornecedorService {
     public Fornecedor atualizar(Long id, Fornecedor fornecedor) {
         Fornecedor fornecedorExistente = fornecedorRepository.findById(id)
                 .orElse(null);
-
-
         if (fornecedorExistente == null) {
             return null;
         }
