@@ -1,6 +1,7 @@
 package com.estoque_admin.service;
 
 
+import com.estoque_admin.entity.TipoMovimentacao;
 import com.estoque_admin.exception.EstoqueInsuficienteException;
 import com.estoque_admin.repository.ItemEstoqueRepository;
 import com.estoque_admin.repository.MovimentacaoEstoqueRepository;
@@ -34,13 +35,13 @@ public class MovimentacaoEstoqueService {
                 ));
 
 
-        if (movimentacaoEstoque.getTipo().equalsIgnoreCase("ENTRADA")) {
+        if (movimentacaoEstoque.getTipo() == TipoMovimentacao.ENTRADA) {
 
             BigDecimal novaQuantidade = itemEstoque.getQuantidade()
                     .add(movimentacaoEstoque.getQuantidade());
 
             itemEstoque.setQuantidade((novaQuantidade));
-        } else if (movimentacaoEstoque.getTipo().equalsIgnoreCase("SAIDA")) {
+        } else if (movimentacaoEstoque.getTipo() == TipoMovimentacao.SAIDA) {
 
             if (itemEstoque.getQuantidade()
                     .compareTo(movimentacaoEstoque.getQuantidade()) < 0) {

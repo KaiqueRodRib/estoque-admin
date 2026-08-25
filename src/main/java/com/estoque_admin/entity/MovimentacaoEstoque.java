@@ -23,7 +23,8 @@ public class MovimentacaoEstoque {
 
     private BigDecimal quantidade;
 
-    private String tipo;
+    @Enumerated(EnumType.STRING)
+    private TipoMovimentacao tipo;
 
     private String observacao;
 
