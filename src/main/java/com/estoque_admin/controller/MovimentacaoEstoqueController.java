@@ -6,10 +6,9 @@ import com.estoque_admin.dto.MovimentacaoEstoqueResponseDTO;
 import com.estoque_admin.entity.MovimentacaoEstoque;
 import com.estoque_admin.service.MovimentacaoEstoqueService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/movimentacoes")
@@ -25,5 +24,13 @@ public class MovimentacaoEstoqueController {
     @PostMapping
     public MovimentacaoEstoqueResponseDTO movimentar(@Valid @RequestBody MovimentacaoEstoqueRequestDTO movimentacaoEstoqueRequestDTO) {
         return movimentacaoEstoqueService.movimentar(movimentacaoEstoqueRequestDTO);
+
+
     }
+
+    @GetMapping
+    public List<MovimentacaoEstoqueResponseDTO> listar(){
+        return movimentacaoEstoqueService.listar();
+    }
+
 }

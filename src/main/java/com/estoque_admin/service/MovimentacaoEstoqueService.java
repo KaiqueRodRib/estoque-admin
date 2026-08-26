@@ -13,6 +13,7 @@ import com.estoque_admin.entity.ItemEstoque;
 import com.estoque_admin.entity.MovimentacaoEstoque;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.estoque_admin.exception.RecursoNaoEncontradoException;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,5 +94,29 @@ public class MovimentacaoEstoqueService {
         responseDTO.setItemEstoqueId(movimentacaoSalva.getItemEstoque().getId());
 
         return responseDTO;
+    }
+
+    public List<MovimentacaoEstoqueResponseDTO> listar() {
+
+        List<MovimentacaoEstoque> movimentacoes =
+                movimentacaoEstoqueRepository.findAll();
+
+        return movimentacoes.stream()
+                .map(movimentacao -> {
+
+                    MovimentacaoEstoqueResponseDTO responseDTO =
+                            new MovimentacaoEstoqueResponseDTO();
+
+                    responseDTO.setId(movimentacao.getId());
+                    responseDTO.setQuantidade(movimentacao.getQuantidade());
+                    responseDTO.setTipo(movimentacao.getTipo());
+                    responseDTO.setObservacao(movimentacao.getObservacao());
+                    responseDTO.setItemEstoqueId(movimentacao.getItemEstoque().getId());
+
+                    return responseDTO;
+
+        })
+        .toList();
+
     }
 }
