@@ -1,6 +1,7 @@
 package com.estoque_admin.service;
 
 
+import com.estoque_admin.dto.MovimentacaoEstoqueRequestDTO;
 import com.estoque_admin.entity.TipoMovimentacao;
 import com.estoque_admin.exception.EstoqueInsuficienteException;
 import com.estoque_admin.repository.ItemEstoqueRepository;
@@ -27,12 +28,28 @@ public class MovimentacaoEstoqueService {
         this.itemEstoqueRepository = itemEstoqueRepository;
     }
 
-    public MovimentacaoEstoque movimentar(MovimentacaoEstoque movimentacaoEstoque) {
+    public MovimentacaoEstoque movimentar(MovimentacaoEstoqueRequestDTO movimentacaoEstoqueRequestDTO) {
         ItemEstoque itemEstoque = itemEstoqueRepository
-                .findById(movimentacaoEstoque.getItemEstoque().getId())
+                .findById(movimentacaoEstoqueRequestDTO.getItemEstoqueId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException(
                         "Item de estoque não encontrado"
                 ));
+
+        MovimentacaoEstoque movimentacaoEstoque = new MovimentacaoEstoque();
+
+        movimentacaoEstoque.setQuantidade(
+                movimentacaoEstoqueRequestDTO.getQuantidade()
+        );
+
+        movimentacaoEstoque.setTipo(
+                movimentacaoEstoqueRequestDTO.getTipo()
+        );
+
+        movimentacaoEstoque.setObservacao(
+                movimentacaoEstoqueRequestDTO.getObservacao()
+        );
+
+        movimentacaoEstoque.setItemEstoque(itemEstoque);
 
 
         if (movimentacaoEstoque.getTipo() == TipoMovimentacao.ENTRADA) {
@@ -57,7 +74,6 @@ public class MovimentacaoEstoqueService {
 
         }
         itemEstoqueRepository.save(itemEstoque);
-        movimentacaoEstoque.setItemEstoque(itemEstoque);
 
         return movimentacaoEstoqueRepository.save(movimentacaoEstoque);
     }

@@ -1,6 +1,7 @@
 package com.estoque_admin.controller;
 
 
+import com.estoque_admin.dto.MovimentacaoEstoqueRequestDTO;
 import com.estoque_admin.entity.MovimentacaoEstoque;
 import com.estoque_admin.service.MovimentacaoEstoqueService;
 import jakarta.validation.Valid;
@@ -21,7 +22,7 @@ public class MovimentacaoEstoqueController {
     }
 
     @PostMapping
-    public MovimentacaoEstoque movimentar(@Valid @RequestBody MovimentacaoEstoque movimentacaoEstoque) {
-        return movimentacaoEstoqueService.movimentar(movimentacaoEstoque);
+    public MovimentacaoEstoque movimentar(@Valid @RequestBody MovimentacaoEstoqueRequestDTO movimentacaoEstoqueRequestDTO) {
+        return movimentacaoEstoqueService.movimentar(movimentacaoEstoqueRequestDTO);
     }
 }
