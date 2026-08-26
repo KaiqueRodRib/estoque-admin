@@ -115,8 +115,49 @@ public class MovimentacaoEstoqueService {
 
                     return responseDTO;
 
-        })
-        .toList();
+                })
+                .toList();
+    }
 
+    public MovimentacaoEstoqueResponseDTO buscarPorId(Long id) {
+        MovimentacaoEstoque movimentacaoEstoque = movimentacaoEstoqueRepository
+                .findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Movimentação não encontrada"
+                ));
+
+        MovimentacaoEstoqueResponseDTO responseDTO =
+                new MovimentacaoEstoqueResponseDTO();
+
+        responseDTO.setId(movimentacaoEstoque.getId());
+        responseDTO.setQuantidade(movimentacaoEstoque.getQuantidade());
+        responseDTO.setTipo(movimentacaoEstoque.getTipo());
+        responseDTO.setObservacao(movimentacaoEstoque.getObservacao());
+        responseDTO.setItemEstoqueId(movimentacaoEstoque.getItemEstoque().getId());
+
+        return responseDTO;
+    }
+
+    public List<MovimentacaoEstoqueResponseDTO> buscarPorItemEstoque(Long itemEstoqueId) {
+        List<MovimentacaoEstoque> movimentacoes =
+                movimentacaoEstoqueRepository
+                        .findByItemEstoqueId(itemEstoqueId);
+
+        return movimentacoes.stream()
+                .map(movimentacao -> {
+
+                    MovimentacaoEstoqueResponseDTO responseDTO =
+                            new MovimentacaoEstoqueResponseDTO();
+
+                    responseDTO.setId(movimentacao.getId());
+                    responseDTO.setQuantidade(movimentacao.getQuantidade());
+                    responseDTO.setTipo(movimentacao.getTipo());
+                    responseDTO.setObservacao(movimentacao.getObservacao());
+                    responseDTO.setItemEstoqueId(movimentacao.getItemEstoque().getId());
+
+                    return responseDTO;
+
+                })
+                .toList();
     }
 }
