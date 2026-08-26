@@ -15,6 +15,7 @@ import com.estoque_admin.entity.MovimentacaoEstoque;
 import java.math.BigDecimal;
 
 import com.estoque_admin.exception.RecursoNaoEncontradoException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MovimentacaoEstoqueService {
@@ -29,6 +30,7 @@ public class MovimentacaoEstoqueService {
         this.itemEstoqueRepository = itemEstoqueRepository;
     }
 
+    @Transactional
     public MovimentacaoEstoqueResponseDTO movimentar(MovimentacaoEstoqueRequestDTO movimentacaoEstoqueRequestDTO) {
         ItemEstoque itemEstoque = itemEstoqueRepository
                 .findById(movimentacaoEstoqueRequestDTO.getItemEstoqueId())
@@ -76,8 +78,10 @@ public class MovimentacaoEstoqueService {
         }
         itemEstoqueRepository.save(itemEstoque);
 
+
         MovimentacaoEstoque movimentacaoSalva =
                 movimentacaoEstoqueRepository.save(movimentacaoEstoque);
+
 
         MovimentacaoEstoqueResponseDTO responseDTO =
                 new MovimentacaoEstoqueResponseDTO();
