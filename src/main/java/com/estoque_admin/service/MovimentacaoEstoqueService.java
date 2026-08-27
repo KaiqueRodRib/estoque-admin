@@ -102,20 +102,7 @@ public class MovimentacaoEstoqueService {
                 movimentacaoEstoqueRepository.findAll();
 
         return movimentacoes.stream()
-                .map(movimentacao -> {
-
-                    MovimentacaoEstoqueResponseDTO responseDTO =
-                            new MovimentacaoEstoqueResponseDTO();
-
-                    responseDTO.setId(movimentacao.getId());
-                    responseDTO.setQuantidade(movimentacao.getQuantidade());
-                    responseDTO.setTipo(movimentacao.getTipo());
-                    responseDTO.setObservacao(movimentacao.getObservacao());
-                    responseDTO.setItemEstoqueId(movimentacao.getItemEstoque().getId());
-
-                    return responseDTO;
-
-                })
+                .map(this::converterParaDTO                )
                 .toList();
     }
 
@@ -126,16 +113,7 @@ public class MovimentacaoEstoqueService {
                         "Movimentação não encontrada"
                 ));
 
-        MovimentacaoEstoqueResponseDTO responseDTO =
-                new MovimentacaoEstoqueResponseDTO();
-
-        responseDTO.setId(movimentacaoEstoque.getId());
-        responseDTO.setQuantidade(movimentacaoEstoque.getQuantidade());
-        responseDTO.setTipo(movimentacaoEstoque.getTipo());
-        responseDTO.setObservacao(movimentacaoEstoque.getObservacao());
-        responseDTO.setItemEstoqueId(movimentacaoEstoque.getItemEstoque().getId());
-
-        return responseDTO;
+        return converterParaDTO(movimentacaoEstoque);
     }
 
     public List<MovimentacaoEstoqueResponseDTO> buscarPorItemEstoque(Long itemEstoqueId) {
@@ -160,4 +138,22 @@ public class MovimentacaoEstoqueService {
                 })
                 .toList();
     }
+
+    private MovimentacaoEstoqueResponseDTO converterParaDTO(
+            MovimentacaoEstoque movimentacaoEstoque) {
+
+        MovimentacaoEstoqueResponseDTO responseDTO =
+                new MovimentacaoEstoqueResponseDTO();
+
+        responseDTO.setId(movimentacaoEstoque.getId());
+        responseDTO.setQuantidade(movimentacaoEstoque.getQuantidade());
+        responseDTO.setTipo(movimentacaoEstoque.getTipo());
+        responseDTO.setObservacao(movimentacaoEstoque.getObservacao());
+        responseDTO.setItemEstoqueId(movimentacaoEstoque.getItemEstoque().getId());
+
+        return responseDTO;
+
+    }
+
+
 }
