@@ -84,16 +84,7 @@ public class MovimentacaoEstoqueService {
                 movimentacaoEstoqueRepository.save(movimentacaoEstoque);
 
 
-        MovimentacaoEstoqueResponseDTO responseDTO =
-                new MovimentacaoEstoqueResponseDTO();
-
-        responseDTO.setId(movimentacaoSalva.getId());
-        responseDTO.setQuantidade(movimentacaoSalva.getQuantidade());
-        responseDTO.setTipo(movimentacaoSalva.getTipo());
-        responseDTO.setObservacao(movimentacaoSalva.getObservacao());
-        responseDTO.setItemEstoqueId(movimentacaoSalva.getItemEstoque().getId());
-
-        return responseDTO;
+        return converterParaDTO(movimentacaoSalva);
     }
 
     public List<MovimentacaoEstoqueResponseDTO> listar() {
@@ -102,7 +93,7 @@ public class MovimentacaoEstoqueService {
                 movimentacaoEstoqueRepository.findAll();
 
         return movimentacoes.stream()
-                .map(this::converterParaDTO                )
+                .map(this::converterParaDTO)
                 .toList();
     }
 
@@ -122,20 +113,7 @@ public class MovimentacaoEstoqueService {
                         .findByItemEstoqueId(itemEstoqueId);
 
         return movimentacoes.stream()
-                .map(movimentacao -> {
-
-                    MovimentacaoEstoqueResponseDTO responseDTO =
-                            new MovimentacaoEstoqueResponseDTO();
-
-                    responseDTO.setId(movimentacao.getId());
-                    responseDTO.setQuantidade(movimentacao.getQuantidade());
-                    responseDTO.setTipo(movimentacao.getTipo());
-                    responseDTO.setObservacao(movimentacao.getObservacao());
-                    responseDTO.setItemEstoqueId(movimentacao.getItemEstoque().getId());
-
-                    return responseDTO;
-
-                })
+                .map(this::converterParaDTO)
                 .toList();
     }
 
@@ -154,6 +132,4 @@ public class MovimentacaoEstoqueService {
         return responseDTO;
 
     }
-
-
 }
