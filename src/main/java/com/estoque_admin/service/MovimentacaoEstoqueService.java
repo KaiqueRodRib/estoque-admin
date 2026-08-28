@@ -108,9 +108,17 @@ public class MovimentacaoEstoqueService {
     }
 
     public List<MovimentacaoEstoqueResponseDTO> buscarPorItemEstoque(Long itemEstoqueId) {
+
+        itemEstoqueRepository
+                .findById(itemEstoqueId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Item não encontrado"
+                ));
+
         List<MovimentacaoEstoque> movimentacoes =
                 movimentacaoEstoqueRepository
                         .findByItemEstoqueId(itemEstoqueId);
+
 
         return movimentacoes.stream()
                 .map(this::converterParaDTO)
