@@ -52,5 +52,11 @@ public class ItemEstoqueService {
         itemEstoqueRepository.deleteById(id);
     }
 
+    public List<ItemEstoque> buscarItensAbaixoDoMinimo(){
+
+        return itemEstoqueRepository.buscarItensAbaixoDoMinimo();
+
+    }
+
 
 }

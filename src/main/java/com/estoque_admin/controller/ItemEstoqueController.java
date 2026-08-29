@@ -27,10 +27,16 @@ public class ItemEstoqueController {
         return itemEstoqueService.listarTodos();
     }
 
+    @GetMapping("/itensminimo")
+    public List<ItemEstoque> buscarItensAbaixoDoMinimo() {
+        return itemEstoqueService.buscarItensAbaixoDoMinimo();
+    }
+
     @GetMapping("/{id}")
     public ItemEstoque buscarPorId(@PathVariable Long id) {
         return itemEstoqueService.buscarPorId(id);
     }
+
 
     @PutMapping("/{id}")
     public ItemEstoque atualizar(@PathVariable Long id,
