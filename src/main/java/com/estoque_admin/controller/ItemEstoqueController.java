@@ -1,6 +1,7 @@
 package com.estoque_admin.controller;
 
 
+import com.estoque_admin.dto.ItemEstoqueMinimoResponseDTO;
 import com.estoque_admin.entity.ItemEstoque;
 import com.estoque_admin.service.ItemEstoqueService;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class ItemEstoqueController {
     }
 
     @GetMapping("/itensminimo")
-    public List<ItemEstoque> buscarItensAbaixoDoMinimo() {
+    public List<ItemEstoqueMinimoResponseDTO> buscarItensAbaixoDoMinimo() {
         return itemEstoqueService.buscarItensAbaixoDoMinimo();
     }
 

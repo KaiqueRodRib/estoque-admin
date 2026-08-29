@@ -1,6 +1,7 @@
 package com.estoque_admin.service;
 
 
+import com.estoque_admin.dto.ItemEstoqueMinimoResponseDTO;
 import com.estoque_admin.entity.ItemEstoque;
 import com.estoque_admin.repository.ItemEstoqueRepository;
 import org.springframework.stereotype.Service;
@@ -48,13 +49,37 @@ public class ItemEstoqueService {
 
     }
 
-    public void deletar(Long id){
+    public void deletar(Long id) {
         itemEstoqueRepository.deleteById(id);
     }
 
-    public List<ItemEstoque> buscarItensAbaixoDoMinimo(){
+    public List<ItemEstoqueMinimoResponseDTO> buscarItensAbaixoDoMinimo() {
 
-        return itemEstoqueRepository.buscarItensAbaixoDoMinimo();
+
+        List<ItemEstoque> abaixoDoEstoque =
+
+                itemEstoqueRepository
+                        .buscarItensAbaixoDoMinimo();
+
+        return abaixoDoEstoque.stream()
+                .map(this::converterParaDTO)
+                .toList();
+
+    }
+
+    private ItemEstoqueMinimoResponseDTO converterParaDTO(
+            ItemEstoque itemEstoque) {
+
+        ItemEstoqueMinimoResponseDTO responseDTO =
+                new ItemEstoqueMinimoResponseDTO();
+
+        responseDTO.setId(itemEstoque.getId());
+        responseDTO.setNome(itemEstoque.getNome());
+        responseDTO.setQuantidade(itemEstoque.getQuantidade());
+        responseDTO.setDescricao(itemEstoque.getDescricao());
+        responseDTO.setEstoqueMinimo(itemEstoque.getEstoqueMinimo());
+
+        return responseDTO;
 
     }
 
