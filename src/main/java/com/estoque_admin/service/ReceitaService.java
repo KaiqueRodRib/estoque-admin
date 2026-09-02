@@ -70,7 +70,7 @@ public class ReceitaService {
         return receitaRepository.findAll();
     }
 
-    public List<ReceitaIngrediente> buscaIngredienteReceita(Long receitaId){
+    public List<ReceitaIngrediente> buscarIngredienteReceita(Long receitaId){
 
         receitaRepository
                 .findById(receitaId)

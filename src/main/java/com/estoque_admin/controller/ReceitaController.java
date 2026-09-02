@@ -2,6 +2,7 @@ package com.estoque_admin.controller;
 
 import com.estoque_admin.dto.ReceitaRequestDTO;
 import com.estoque_admin.entity.Receita;
+import com.estoque_admin.entity.ReceitaIngrediente;
 import com.estoque_admin.service.ReceitaService;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,12 @@ public class ReceitaController {
     @GetMapping
     public List<Receita> listarTodos(){
         return receitaService.listarTodos();
+    }
+
+    @GetMapping("/{id}/ingredientes")
+    public List<ReceitaIngrediente> listarIngredientes(@PathVariable Long id){
+
+        return receitaService.buscarIngredienteReceita(id);
     }
 
 }
