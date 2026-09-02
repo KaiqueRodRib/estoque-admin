@@ -1,6 +1,8 @@
 package com.estoque_admin.controller;
 
+import com.estoque_admin.dto.ReceitaIngredienteResponseDTO;
 import com.estoque_admin.dto.ReceitaRequestDTO;
+import com.estoque_admin.dto.ReceitaResponseDTO;
 import com.estoque_admin.entity.Receita;
 import com.estoque_admin.entity.ReceitaIngrediente;
 import com.estoque_admin.service.ReceitaService;
@@ -25,12 +27,12 @@ public class ReceitaController {
     }
 
     @GetMapping
-    public List<Receita> listarTodos(){
+    public List<ReceitaResponseDTO> listarTodos(){
         return receitaService.listarTodos();
     }
 
     @GetMapping("/{id}/ingredientes")
-    public List<ReceitaIngrediente> listarIngredientes(@PathVariable Long id){
+    public List<ReceitaIngredienteResponseDTO> listarIngredientes(@PathVariable Long id){
 
         return receitaService.buscarIngredienteReceita(id);
     }

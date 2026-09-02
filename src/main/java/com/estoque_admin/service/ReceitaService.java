@@ -1,7 +1,9 @@
 package com.estoque_admin.service;
 
 import com.estoque_admin.dto.ReceitaIngredienteRequestDTO;
+import com.estoque_admin.dto.ReceitaIngredienteResponseDTO;
 import com.estoque_admin.dto.ReceitaRequestDTO;
+import com.estoque_admin.dto.ReceitaResponseDTO;
 import com.estoque_admin.entity.ItemEstoque;
 import com.estoque_admin.entity.Receita;
 import com.estoque_admin.entity.ReceitaIngrediente;
@@ -66,11 +68,18 @@ public class ReceitaService {
         return receita;
     }
 
-    public List<Receita> listarTodos(){
-        return receitaRepository.findAll();
+    public List<ReceitaResponseDTO> listarTodos(){
+
+        List<Receita> listaDeReceita =
+                receitaRepository.
+                        findAll();
+
+        return listaDeReceita.stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
 
-    public List<ReceitaIngrediente> buscarIngredienteReceita(Long receitaId){
+    public List<ReceitaIngredienteResponseDTO> buscarIngredienteReceita(Long receitaId){
 
         receitaRepository
                 .findById(receitaId)
@@ -78,7 +87,34 @@ public class ReceitaService {
                         "Receita não encontrada"
                 ));
 
-        return receitaIngredienteRepository.findByReceitaId(receitaId);
+        List<ReceitaIngrediente> receitas =
+                receitaIngredienteRepository.findByReceitaId(receitaId);
+
+        return receitas.stream()
+                .map(this::ingredienteConverterParaDTO)
+                .toList();
+    }
+
+    private ReceitaResponseDTO converterParaDTO(Receita receita){
+
+        ReceitaResponseDTO responseDTO = new ReceitaResponseDTO();
+
+        responseDTO.setId(receita.getId());
+        responseDTO.setNome(receita.getNome());
+        responseDTO.setDataCadastro(receita.getDataCadastro());
+
+        return responseDTO;
+    }
+
+    private ReceitaIngredienteResponseDTO ingredienteConverterParaDTO(ReceitaIngrediente receitaIngrediente){
+
+        ReceitaIngredienteResponseDTO responseIngredienteDTO = new ReceitaIngredienteResponseDTO();
+
+        responseIngredienteDTO.setItemEstoqueId(receitaIngrediente.getItemEstoque().getId());
+        responseIngredienteDTO.setNome(receitaIngrediente.getItemEstoque().getNome());
+        responseIngredienteDTO.setQuantidade(receitaIngrediente.getQuantidade());
+
+        return responseIngredienteDTO;
     }
 
 }
