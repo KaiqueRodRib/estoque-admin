@@ -70,5 +70,15 @@ public class ReceitaService {
         return receitaRepository.findAll();
     }
 
+    public List<ReceitaIngrediente> buscaIngredienteReceita(Long receitaId){
+
+        receitaRepository
+                .findById(receitaId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Receita não encontrada"
+                ));
+
+        return receitaIngredienteRepository.findByReceitaId(receitaId);
+    }
 
 }
